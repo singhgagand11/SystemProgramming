@@ -1,0 +1,23 @@
+Gagandeep Singh
+CPE 357 - 01
+Project 01 - myod: clone of od
+
+Compiling?
+In order to compile the myod program one can simple type in the command line
+"make myod" or "myod".
+ex: $ make
+ex: $ make myod
+
+Running?
+In order to run the program one has choice of typing three arguments:
+-N, --read-bytes=BYTES
+     limit dump to BYTES input bytes
+-j, --skip-bytes=BYTES
+     skip BYTES input bytes first
+filename, --the file to dump into octal format
+Note if filename is not provided od uses stdin for input.
+ex: $ myod -j4 -N 20 file.txt
+ex: myod -j4 file.txt
+
+Thing I found out?
+When od see's repeated characters it prints out a '*'. 

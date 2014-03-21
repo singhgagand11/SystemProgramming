@@ -1,0 +1,72 @@
+Project 1 : Partial clone of od(1) (myod)
+This project writeup is not yet ready.
+The Rules
+This project must be individual work.  This will always be the case for projects in this course.
+This project must be handed in by 11:59 PM Friday, Jan 14. Late assignments are not accepted.
+Overview
+You will reimplement (part of) a standard Unix utility, od(1) — the "octal dump" routine.
+You will also compare the SUS2 specification of this utility with the Linux man page, and comment on any differences.
+Specification
+Implement a program myod which acts like the Linux od(1) program with the following modifications
+It always formats output as would "od -Ax -bc", without requiring those options to be specified. It does not even have to allow them to be specified.
+It accepts the additional options -j and -N (with parameters).
+It may, but need not, accept any other parameters you have an interest in implementing, but if none are specified the program must behave just as od(1) does as modified above.
+Your output must be an exact clone of the output of od, and that's the way it will be tested.
+You can ignore all reference to "locale" in the documentation, and run both od(1) and your program in the POSIX locale by setting environment variable LANG to "C" (see sample run).
+Hints
+Learn to use Linux utilities in your testing. I particularly recommend
+cat(1) with the -A option.
+diff(1) with the -u option.
+You may use the getopt(3) function for handling the command line. You must avoid getopt_long because it requires the _GNU_SOURCE symbol with is outlawed in the coding rules. You don't need the long form anyway.
+Compare the octal codes in the output of od with the codes seen in the output of the "man ascii" command.
+Write a program to create a file containing all possible characters (not just the ASCII ones,) and make sure your output matches od).
+Sample Runs
+Here, "% " is taken as the shell prompt -- it will actually vary from person to person. The maroon stuff is your input
+    % echo "The quick brown fox jumped over the lazy dog's back." >file.txt
+    % echo '10 times!' >>file.txt
+    % LANG=C myod file.txt
+    000000 124 150 145 040 161 165 151 143 153 040 142 162 157 167 156 040
+             T   h   e       q   u   i   c   k       b   r   o   w   n    
+    000010 146 157 170 040 152 165 155 160 145 144 040 157 166 145 162 040
+             f   o   x       j   u   m   p   e   d       o   v   e   r    
+    000020 164 150 145 040 154 141 172 171 040 144 157 147 047 163 040 142
+             t   h   e       l   a   z   y       d   o   g   '   s       b
+    000030 141 143 153 056 012 061 060 040 164 151 155 145 163 041 012
+             a   c   k   .  \n   1   0       t   i   m   e   s   !  \n
+    00003f
+    % LANG=C myod -j 20 file.txt
+    000014 152 165 155 160 145 144 040 157 166 145 162 040 164 150 145 040
+             j   u   m   p   e   d       o   v   e   r       t   h   e    
+    000024 154 141 172 171 040 144 157 147 047 163 040 142 141 143 153 056
+             l   a   z   y       d   o   g   '   s       b   a   c   k   .
+    000034 012 061 060 040 164 151 155 145 163 041 012
+            \n   1   0       t   i   m   e   s   !  \n
+    00003f
+    % LANG=C myod -N20 file.txt
+    000000 124 150 145 040 161 165 151 143 153 040 142 162 157 167 156 040
+             T   h   e       q   u   i   c   k       b   r   o   w   n    
+    000010 146 157 170 040
+             f   o   x    
+    000014
+    % LANG=C myod -j4 -N 20 file.txt
+    000004 161 165 151 143 153 040 142 162 157 167 156 040 146 157 170 040
+             q   u   i   c   k       b   r   o   w   n       f   o   x    
+    000014 152 165 155 160
+             j   u   m   p
+    000018
+    %
+What to Hand in
+Code: Submit via handin to the proj1 directory:
+Your well-documented source files
+A makefile (called Makefile) that will build your program with “make myod” or just “make”.
+A README file which contains:
+Your name.
+Any instructions for compiling and running it.
+Any other thing you want me to know while I am grading it.
+A Unix-format text file report.txt which notes any differences you found between the Linux documentation and the SUS2 specification. If you've noticed any differences between the actual od(1) program and the Linux documentation, you should comment on them here, too.
+Handin
+Hand in your code, makefile and README using the "handin" program. If your directory is clean enough, use a command like so:
+    handin ko-cs357 proj1 *.[ch] Makefile README report.txt <whatever> ...
+and check that everything got in properly by looking at the output and requesting a list like this:
+    handin ko-cs357 proj1
+Make sure your stuff is all listed; you are responsible for the meaning of <whatever> and "..." above. If your project needs anything else in order to compile and run, be sure it gets handed in either by handing it in separately or else by adding it to the above command and re-submitting.
